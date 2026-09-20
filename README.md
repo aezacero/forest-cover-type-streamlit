@@ -7,12 +7,10 @@ dataset.
 
 ## Architecture
 
-- `notebooks/` — the original EDA, feature engineering, modeling, and evaluation
-  notebooks (R&D record; not used at runtime).
 - `src/cover_type/` — production code, framework-agnostic:
   - `data.py` — raw column schema, data loading, input validation.
-  - `features.py` — the feature engineering pipeline (ported from
-    `notebooks/2_Feature_Engineering.ipynb`).
+  - `features.py` — the feature engineering pipeline (ported from the
+    original feature engineering notebook).
   - `labels.py` — Cover Type class ID → name mapping.
   - `model.py` — model loading and single-row prediction.
 - `scripts/train.py` — reproducible training script: raw data → engineered
@@ -20,11 +18,16 @@ dataset.
 - `app/streamlit_app.py` — the Streamlit UI.
 - `tests/` — unit tests for `src/cover_type/`.
 
+This repo contains the production app only. It was developed from a set of
+exploratory Jupyter notebooks (EDA, feature engineering, modeling, model
+selection, evaluation) that are not included here.
+
 ## Model
 
-LightGBM classifier, hyperparameters selected via `RandomizedSearchCV` in
-`notebooks/3_Modeling.ipynb` (5-fold cross-validated accuracy: **87.6%**).
-The exact winning hyperparameters are hardcoded in `scripts/train.py`.
+LightGBM classifier, hyperparameters selected via `RandomizedSearchCV`
+during exploratory model selection (5-fold cross-validated accuracy:
+**87.6%**). The exact winning hyperparameters are hardcoded in
+`scripts/train.py`.
 
 ## Setup
 
