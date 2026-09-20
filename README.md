@@ -1,5 +1,7 @@
 # Forest Cover Type Predictor
 
+[![CI](https://github.com/aezacero/forest-cover-type-streamlit/actions/workflows/ci.yml/badge.svg)](https://github.com/aezacero/forest-cover-type-streamlit/actions/workflows/ci.yml)
+
 A Streamlit app that predicts forest cover type (7 classes) from raw terrain
 features, backed by a LightGBM model. Built on top of the
 [UCI/Kaggle Forest Cover Type](https://www.kaggle.com/c/forest-cover-type-prediction)
