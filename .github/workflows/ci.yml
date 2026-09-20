@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --group dev --frozen
+
+      - name: Lint
+        run: uv run ruff check src app scripts tests
+
+      - name: Test
+        run: uv run pytest -q
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t cover-type-app .
+
+      - name: Log in to Docker Hub
+        if: github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != ''
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        if: github.ref == 'refs/heads/main' && secrets.DOCKERHUB_USERNAME != ''
+        run: |
+          docker tag cover-type-app ${{ secrets.DOCKERHUB_USERNAME }}/cover-type-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/cover-type-app:latest

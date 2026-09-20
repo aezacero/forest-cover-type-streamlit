@@ -1,0 +1,22 @@
+# Notebooks & data
+notebooks/
+data/
+
+# Dev-only
+tests/
+scripts/
+.claude/
+
+# VCS / CI
+.git/
+.github/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# OS
+.DS_Store
